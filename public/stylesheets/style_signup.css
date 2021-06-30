@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+*{
+  padding: 0;
+  margin: 0;
+  font-family: 'Ubuntu', sans-serif;
+}
+.card_signup{
+    width: 550px;
+    height: 520px;
+    margin: auto;
+    padding: 10px;
+    margin-top: 5rem;
+    border:  5px solid rgb(0, 225, 255);
+    border-top: 20px solid rgb(0, 225, 255);
+}
+.btn{
+  
+    display: block;
+    margin: 0 auto;
+}
+.text-center{
+    margin-top: 2rem;
+    font-weight: 200;
+    font-size: 3rem;
+}
+.card_signup p{
+    margin-top: 0.8rem;
+}

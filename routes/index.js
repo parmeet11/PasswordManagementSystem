@@ -6,4 +6,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Password Management System' });
 });
 
+router.get('/signup', function(req, res, next) {
+  res.render('signup', { title: 'Password Management System' });
+});
+
 module.exports = router;
