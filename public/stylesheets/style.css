@@ -6,14 +6,15 @@
 }
 .card{
   width: 550px;
-  height: 330px;
+  height: 400px;
   margin: auto;
   margin-top: 5rem;
   padding: 10px;
-  display: flex;
+  /*display: flex;
   justify-content: center;
   border-width: 5px;
-  border-color: rgb(0, 225, 255);
+  border-color: rgb(0, 225, 255);*/
+  border:  5px solid rgb(0, 225, 255);
   border-top: 20px solid rgb(0, 225, 255);
 }
 .btn{
