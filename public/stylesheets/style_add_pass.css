@@ -6,10 +6,10 @@
 }
 .card_signup{
     width: 550px;
-    height: 570px;
+    height: 680px;
     margin: auto;
     padding: 10px;
-    margin-top: 3rem;
+    margin-top: 1rem;
     border:  5px solid rgb(0, 225, 255);
     border-top: 20px solid rgb(0, 225, 255);
 }
@@ -19,25 +19,10 @@
     margin: 0 auto;
 }
 .text-center{
-    margin-top: 2rem;
+    margin-top: 1.3rem;
     font-weight: 200;
     font-size: 3rem;
 }
 .card_signup p{
     margin-top: 0.8rem;
-}
-
-.table button{
-    width: 35px;
-    height: 35px;
-    border-color: white;
-    background-color: white;
-    
-}
-button .edit{
-    color: rgb(0, 195, 255);
-    
-}
-button .delete{
-    color: red;
 }

@@ -4,6 +4,8 @@ var userModule = require('../modules/user');
 var bodyParser = require("body-parser");
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+const { check, validationResult } = require('express-validator');
+
 
 function checkloginuser(req, res, next){
   var usertoken = localStorage.getItem('usertoken');
@@ -123,8 +125,24 @@ router.post('/signup', checkemail, checkusername, function(req, res, next) {
   //console.log(details);
 });
 
-router.get('/passwordCategory', function(req, res, next) {
+router.get('/passwordCategory',checkloginuser, function(req, res, next) {
   res.render('pwd_category', { title: 'Password Management System' });
+});
+
+router.get('/addPassword', checkloginuser,function(req, res, next) {
+  var loginuser = localStorage.getItem('loginuser');
+  res.render('add_password', { title: 'Password Management System', loginuser:loginuser, errors:''});
+});
+
+router.post('/addPassword',checkloginuser,[check('pass_details','Enter password details').isLength({min:1})],function(req, res, next) {
+  var loginuser = localStorage.getItem('loginuser');
+  const errors = validationResult(req);
+  if(!errors.isEmpty()){
+    //console.log(errors.mapped());
+    res.render('add_password', { title: 'Password Management System', loginuser:loginuser, errors: errors.mapped()});
+  }else{
+  res.render('add_password', { title: 'Password Management System', loginuser:loginuser, errors:'' });
+  }
 });
 
 router.get('/logout', function(req, res, next) {
