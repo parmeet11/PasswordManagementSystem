@@ -1,11 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var userModule = require('../modules/user');
+var passwordModule = require('../modules/add_password');
 var bodyParser = require("body-parser");
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
-const { check, validationResult } = require('express-validator');
+//const { check, validationResult } = require('express-validator');
 
+var getpassword = passwordModule.find({});
 
 function checkloginuser(req, res, next){
   var usertoken = localStorage.getItem('usertoken');
@@ -131,18 +133,41 @@ router.get('/passwordCategory',checkloginuser, function(req, res, next) {
 
 router.get('/addPassword', checkloginuser,function(req, res, next) {
   var loginuser = localStorage.getItem('loginuser');
-  res.render('add_password', { title: 'Password Management System', loginuser:loginuser, errors:''});
+  getpassword.exec(function(err,data){
+    if(err) throw err;
+    res.render('add_password', { title: 'Password Management System', loginuser:loginuser, /*errors:'', records:data,*/msg:''});
+  })  
+  
 });
 
-router.post('/addPassword',checkloginuser,[check('pass_details','Enter password details').isLength({min:1})],function(req, res, next) {
+router.post('/addPassword',checkloginuser,/*[check('pass_details','Enter password details').isLength({min:1})]*/function(req, res, next) {
   var loginuser = localStorage.getItem('loginuser');
-  const errors = validationResult(req);
+  var category_name = req.body.category_name;
+  var pass_details = req.body.pass_details;
+  if(pass_details==''){
+    res.render('add_password', { title: 'Password Management System', loginuser:loginuser,/* errors:'', records:data,*/ msg:'enter password details'});
+  }
+  else{
+  var password_details = new passwordModule({
+    "category_name": category_name,
+    "password_detail": pass_details
+  });
+
+  /*const errors = validationResult(req);
   if(!errors.isEmpty()){
     //console.log(errors.mapped());
     res.render('add_password', { title: 'Password Management System', loginuser:loginuser, errors: errors.mapped()});
   }else{
   res.render('add_password', { title: 'Password Management System', loginuser:loginuser, errors:'' });
-  }
+  }*/
+
+  password_details.save(function(err,doc){
+    
+      if(err) throw err;
+      res.render('add_password', { title: 'Password Management System', loginuser:loginuser,/* errors:'', records:data,*/ msg:'password details inserted successfully'});
+    
+  })
+}
 });
 
 router.get('/logout', function(req, res, next) {
