@@ -177,6 +177,53 @@ router.get('/viewlist',checkloginuser, function(req, res, next) {
   
 });
 
+router.get('/viewlistdetails/',checkloginuser, function(req, res, next) {
+  
+  res.redirect('/viewlist');
+  
+});
+
+router.get('/viewlistdetails/edit/:id',checkloginuser, function(req, res, next) {
+  var loginuser = localStorage.getItem('loginuser');
+  var getid = req.params.id;
+  var passdetails = passwordModule.findById({_id: getid});
+  passdetails.exec(function(err,data){
+    if(err) throw err;
+    res.render('edit_password_details', { title: 'Password Management System', loginuser:loginuser,record:data,msg:''});
+  }); 
+  
+  
+});
+
+router.post('/viewlistdetails/edit/:id',checkloginuser, function(req, res, next) {
+  var loginuser = localStorage.getItem('loginuser');
+  var getid = req.params.id;
+  var categoryname = req.body.category_name;
+  var pass_details = req.body.pass_details;
+  passwordModule.findByIdAndUpdate(getid,{category_name:categoryname,password_detail:pass_details}).exec(function(err){
+    if(err) throw err;
+      var passdetails = passwordModule.findById({_id: getid});
+      passdetails.exec(function(err,data){
+        if(err) throw err;
+        res.render('edit_password_details', { title: 'Password Management System', loginuser:loginuser,record:data,msg:'Password details updated successfully'});
+      });
+  }); 
+  
+  
+});
+
+router.get('/viewlistdetails/delete/:id',checkloginuser, function(req, res, next) {
+  var loginuser = localStorage.getItem('loginuser');
+  var getid = req.params.id;
+  var passdelete = passwordModule.findByIdAndDelete(getid);
+  passdelete.exec(function(err){
+    if(err) throw err;
+    res.redirect('/viewlist');
+  }); 
+  
+  
+});
+
 router.get('/logout', function(req, res, next) {
   localStorage.removeItem('usertoken');
   localStorage.removeItem('loginuser');
